@@ -2,12 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-
-<!-- Add additional meta tags for better mobile experience -->
-<meta name="theme-color" content="#432414">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Maki City - Japanese Cuisine</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="styles.css">
@@ -22,13 +17,24 @@
 <body class="font-sans bg-white">
 <!-- Navigation -->
 <nav class="fixed-header">
-    <div class="container mx-auto px-6 flex justify-between items-center py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center py-4">
         <a href="#" class="flex items-center cursor-pointer">
-            <img src="MAKI CITY LOGO.svg" alt="Maki City Logo" class="h-12 mr-3">
-            <div class="text-2xl font-bold text-white">MAKI CITY</div>
+            <img src="MAKI CITY LOGO.svg" alt="Maki City Logo" class="h-10 md:h-12 mr-2 md:mr-3">
+            <div class="text-xl md:text-2xl font-bold text-white">MAKI CITY</div>
         </a>
-        <div class="flex-1 max-w-md mx-auto px-4">
-            <div class="relative flex items-center">
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none" aria-label="Toggle menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        
+        <!-- Desktop Search -->
+        <div class="hidden md:flex flex-1 max-w-md mx-auto px-4">
+            <div class="relative flex items-center w-full">
                 <input 
                     type="text" 
                     placeholder="Search menu..." 
@@ -43,8 +49,9 @@
                 </button>
             </div>
         </div>
+        
         <!-- Desktop Navigation -->
-        <div class="flex items-center space-x-6">
+        <div class="hidden md:flex items-center space-x-6">
             <a href="#" class="text-white nav-link">Home</a>
             <a href="#menu" class="text-white nav-link">Menu</a>
             <a href="#about-us" class="text-white nav-link">About Us</a>
@@ -61,21 +68,63 @@
             </div>
         </div>
     </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden bg-brown-800 pb-4">
+        <!-- Mobile Search -->
+        <div class="px-4 py-2">
+            <div class="relative flex items-center">
+                <input 
+                    type="text" 
+                    placeholder="Search menu..." 
+                    class="search-input px-4 py-2 rounded-lg text-sm w-full pr-10"
+                    aria-label="Search menu items"
+                >
+                <button class="absolute right-3 top-1/2 transform -translate-y-1/2" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Links -->
+        <div class="flex flex-col px-4 pt-2 pb-3 space-y-2">
+            <a href="#" class="text-white py-2 px-3 rounded hover:bg-brown-700 mobile-nav-link">Home</a>
+            <a href="#menu" class="text-white py-2 px-3 rounded hover:bg-brown-700 mobile-nav-link">Menu</a>
+            <a href="#about-us" class="text-white py-2 px-3 rounded hover:bg-brown-700 mobile-nav-link">About Us</a>
+            <a href="#contact" class="text-white py-2 px-3 rounded hover:bg-brown-700 mobile-nav-link">Contact</a>
+            <div class="flex items-center py-2 px-3 text-white mobile-cart-wrapper">
+                <span>Cart</span>
+                <div class="cart-icon-wrapper ml-2 cursor-pointer" aria-label="Shopping cart" role="button" tabindex="0">
+                    <div class="relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cart-icon">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span id="mobile-cart-badge" class="absolute -top-2 -right-2 bg-yellow-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </nav>
 
 <!-- Hero Section with full-screen background -->
 <section class="hero-section">
-<div class="container mx-auto px-6">
-    <div class="grid md:grid-cols-2 gap-10 items-start h-full"> 
+<div class="container mx-auto px-4 md:px-6">
+    <div class="grid md:grid-cols-2 gap-6 md:gap-10 items-start h-full"> 
         <div class="space-y-2 flex flex-col justify-center mt-8 md:mt-10"> 
             <div>
-                <h1 class="text-4xl md:text-5xl font-bold custom-heading">
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold custom-heading">
                    <span>EXPERIENCE THE</span>
                    <span>WORLD'S FLAVORS,</span>
                    <span>ONE MAKI ROLL</span>
                    <span>AT A TIME</span>
                </h1>
-                <p class="text-base md:text-lg mt-4">
+                <p class="text-base md:text-lg mt-4 text-white">
                     Maki City offers a world of flavor in every bite! We craft maki with diverse, high-quality ingredients, featuring exciting global fusions and options catering to the Filipino palate. There's something for everyone to enjoy!
                 </p>
                 <a href="#menu" class="inline-block bg-yellow-500 text-brown-900 px-5 py-2 rounded-lg hover:bg-yellow-600 transition focus:ring-2 focus:ring-yellow-400 focus:outline-none mt-6">
@@ -88,29 +137,32 @@
                 </a>
             </div>
         </div>
-        <div class="flex justify-center items-center mt-12 md:mt-16"> <!-- Added margin-top to move image lower -->
+        <div class="flex justify-center items-center mt-8 md:mt-12"> 
             <img 
                 src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
                 alt="Assorted sushi rolls" 
                 class="w-full h-auto object-cover rounded-lg shadow-lg"
+                loading="lazy"
             />
         </div>
     </div>
 </div>
 </section>
 
-<div class="container mx-auto px-6">
+<div class="container mx-auto px-4 md:px-6">
     <!-- Menu Section -->
-    <section id="menu" class="py-16 bg-white scroll-mt-20">
+    <section id="menu" class="py-12 md:py-16 bg-white scroll-mt-20">
         
-        <!-- Category tabs -->
-        <div class="category-tabs" role="tablist" aria-label="Menu categories">
-            <button class="category-tab active" data-category="all" role="tab" aria-selected="true" tabindex="0">All</button>
-            <button class="category-tab" data-category="Maki Cities" role="tab" aria-selected="false" tabindex="0">Maki Cities</button>
-            <button class="category-tab" data-category="Nori Maki Mixed" role="tab" aria-selected="false" tabindex="0">Nori Maki Mixed</button>
-            <button class="category-tab" data-category="Multiple Cities" role="tab" aria-selected="false" tabindex="0">Multiple Cities</button>
-            <button class="category-tab" data-category="Salad" role="tab" aria-selected="false" tabindex="0">Salad</button>
-            <button class="category-tab" data-category="Also Available" role="tab" aria-selected="false" tabindex="0">Also Available</button>
+        <!-- Category tabs with horizontal scrolling on mobile -->
+        <div class="category-tabs-container overflow-x-auto pb-2">
+            <div class="category-tabs inline-flex md:flex md:flex-wrap md:justify-center" role="tablist" aria-label="Menu categories">
+                <button class="category-tab active whitespace-nowrap" data-category="all" role="tab" aria-selected="true" tabindex="0">All</button>
+                <button class="category-tab whitespace-nowrap" data-category="Maki Cities" role="tab" aria-selected="false" tabindex="0">Maki Cities</button>
+                <button class="category-tab whitespace-nowrap" data-category="Nori Maki Mixed" role="tab" aria-selected="false" tabindex="0">Nori Maki Mixed</button>
+                <button class="category-tab whitespace-nowrap" data-category="Multiple Cities" role="tab" aria-selected="false" tabindex="0">Multiple Cities</button>
+                <button class="category-tab whitespace-nowrap" data-category="Salad" role="tab" aria-selected="false" tabindex="0">Salad</button>
+                <button class="category-tab whitespace-nowrap" data-category="Also Available" role="tab" aria-selected="false" tabindex="0">Also Available</button>
+            </div>
         </div>
         
         <div class="container mx-auto" id="menu-container">
@@ -123,20 +175,20 @@
 </div>
 
 <!-- About Us Section -->
-<section id="about-us" class="py-24 md:py-36 bg-brown-900 scroll-mt-20 relative">
+<section id="about-us" class="py-16 md:py-24 lg:py-36 bg-brown-900 scroll-mt-20 relative">
   <!-- Background Image with Overlay -->
   <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20" style="background-image: url('https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');"></div>
   
-  <div class="container mx-auto px-6 relative z-10">
-      <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-white">ABOUT MAKI CITY</h2>
+  <div class="container mx-auto px-4 md:px-6 relative z-10">
+      <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 md:mb-8 text-center text-white">ABOUT MAKI CITY</h2>
       <div class="max-w-3xl mx-auto text-center">
-          <p class="text-lg text-gray-200 leading-relaxed mb-6">
+          <p class="text-base md:text-lg text-gray-200 leading-relaxed mb-4 md:mb-6">
               Maki City was born from a couple's passionate love for Japanese cuisine. What started as a shared culinary adventure has blossomed into a unique dining experience that celebrates the diversity of global flavors.
           </p>
-          <p class="text-lg text-gray-200 leading-relaxed mb-6">
+          <p class="text-base md:text-lg text-gray-200 leading-relaxed mb-4 md:mb-6">
               Our menu is a culinary journey, inspired by different cities and states, each roll telling a story through its carefully selected ingredients. From Seoul's bold bulgogi ham to Tokyo's delicate teriyaki, every Maki City creation is a tribute to the rich tapestry of global food culture.
           </p>
-          <p class="text-lg text-gray-200 leading-relaxed">
+          <p class="text-base md:text-lg text-gray-200 leading-relaxed">
               We believe that sushi is more than just food—it's an art form, a cultural expression, and a way to connect people through extraordinary flavors. At Maki City, we invite you to explore the world, one roll at a time.
           </p>
       </div>
@@ -144,14 +196,14 @@
 </section>
 
 <!-- Testimonials Section - Add after About Us section -->
-<section id="testimonials" class="py-16 bg-brown-100 scroll-mt-20 relative">
-<div class="container mx-auto px-6">
-  <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-brown-900">WHAT OUR CUSTOMERS SAY</h2>
+<section id="testimonials" class="py-12 md:py-16 bg-brown-100 scroll-mt-20 relative">
+<div class="container mx-auto px-4 md:px-6">
+  <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-12 text-center text-brown-900">WHAT OUR CUSTOMERS SAY</h2>
   
   <div class="testimonial-slider">
     <!-- Testimonial 1 -->
     <div class="testimonial-slide">
-      <div class="bg-white p-6 rounded-lg shadow-lg relative">
+      <div class="bg-white p-4 md:p-6 rounded-lg shadow-lg relative">
         <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
           <div class="w-12 h-12 rounded-full bg-yellow-500 flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brown-900">
@@ -190,7 +242,7 @@
     
     <!-- Testimonial 2 -->
     <div class="testimonial-slide">
-      <div class="bg-white p-6 rounded-lg shadow-lg relative">
+      <div class="bg-white p-4 md:p-6 rounded-lg shadow-lg relative">
         <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
           <div class="w-12 h-12 rounded-full bg-yellow-500 flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brown-900">
@@ -229,7 +281,7 @@
     
     <!-- Testimonial 3 -->
     <div class="testimonial-slide">
-      <div class="bg-white p-6 rounded-lg shadow-lg relative">
+      <div class="bg-white p-4 md:p-6 rounded-lg shadow-lg relative">
         <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
           <div class="w-12 h-12 rounded-full bg-yellow-500 flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brown-900">
@@ -278,12 +330,12 @@
 
 <!-- Contact Section -->
 <section id="contact" class="py-12 bg-white scroll-mt-32">
-    <div class="container mx-auto px-6">
+    <div class="container mx-auto px-4 md:px-6">
         
         <div class="max-w-5xl mx-auto">
             <div class="grid md:grid-cols-2 gap-6 bg-white rounded-lg overflow-hidden shadow-xl">
                 <!-- Contact Form -->
-                <div class="p-6 bg-white">
+                <div class="p-4 md:p-6 bg-white">
                     <div class="rounded-lg overflow-hidden">
                         <!-- Google Maps embed with Las Piñas branch address -->
                         <iframe 
@@ -293,7 +345,8 @@
                             style="border:0;" 
                             allowfullscreen="" 
                             loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade">
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Maki City Las Piñas Branch Location">
                         </iframe>
                     </div>
                     <p class="text-center mt-4 text-brown-900 font-medium">
@@ -302,13 +355,13 @@
                 </div>
                 
                 <!-- Contact Information -->
-                <div class="p-6 bg-brown-100">
-                    <h3 class="text-2xl font-bold mb-6 text-brown-900">Get in Touch</h3>
+                <div class="p-4 md:p-6 bg-brown-100">
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-brown-900">Get in Touch</h3>
                     
                     <!-- Business Hours -->
-                    <div class="mb-8">
-                        <h4 class="text-xl font-semibold mb-4 text-brown-900">Business Hours</h4>
-                        <div class="bg-white p-4 rounded-lg shadow-md">
+                    <div class="mb-6 md:mb-8">
+                        <h4 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-brown-900">Business Hours</h4>
+                        <div class="bg-white p-3 md:p-4 rounded-lg shadow-md">
                             <div class="flex justify-between items-center mb-2">
                                 <span class="font-medium">Monday - Friday</span>
                                 <span>9:00 AM - 8:00 PM</span>
@@ -326,7 +379,7 @@
                     
                     <!-- Quick Contact -->
                     <div>
-                        <h4 class="text-xl font-semibold mb-4 text-brown-900">Need a Quick Response?</h4>
+                        <h4 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-brown-900">Need a Quick Response?</h4>
                         <button 
                             id="request-call-btn"
                             class="w-full p-3 border-2 border-yellow-500 text-yellow-600 rounded-lg hover:bg-yellow-500 hover:text-brown-900 transition focus:ring-2 focus:ring-yellow-400 focus:outline-none font-bold flex items-center justify-center"
@@ -339,20 +392,17 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Map Section -->
-            
         </div>
     </div>
 </section>
 
 <!-- Footer Section -->
-<footer class="footer-gradient text-white py-9">
-    <div class="container mx-auto px-12">
-        <div class="grid md:grid-cols-4 gap-8">
+<footer class="footer-gradient text-white py-6 md:py-9">
+    <div class="container mx-auto px-4 md:px-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             <!-- Store Branches: Las Piñas -->
             <div>
-                <h4 class="text-xl font-bold mb-4">Las Piñas Branch</h4>
+                <h4 class="text-lg md:text-xl font-bold mb-3 md:mb-4">Las Piñas Branch</h4>
                 <ul class="space-y-2">
                     <li>
                         <strong>Location</strong>
@@ -367,7 +417,7 @@
 
             <!-- Store Branches: Cavite -->
             <div>
-                <h4 class="text-xl font-bold mb-4">Cavite Branch</h4>
+                <h4 class="text-lg md:text-xl font-bold mb-3 md:mb-4">Cavite Branch</h4>
                 <ul class="space-y-2">
                     <li>
                         <strong>Location</strong>
@@ -382,7 +432,7 @@
 
             <!-- Store Branches: Laguna -->
             <div>
-                <h4 class="text-xl font-bold mb-4">Laguna Branch</h4>
+                <h4 class="text-lg md:text-xl font-bold mb-3 md:mb-4">Laguna Branch</h4>
                 <ul class="space-y-2">
                     <li>
                         <strong>Location</strong>
@@ -397,8 +447,8 @@
 
             <!-- Newsletter Signup -->
             <div>
-                <h4 class="text-xl font-bold mb-4">Stay Updated</h4>
-                <p class="text-sm mb-4">Subscribe to our newsletter for latest updates and offers</p>
+                <h4 class="text-lg md:text-xl font-bold mb-3 md:mb-4">Stay Updated</h4>
+                <p class="text-sm mb-3 md:mb-4">Subscribe to our newsletter for latest updates and offers</p>
                 <form id="newsletter-form" onsubmit="handleNewsletterSubmit(event)" class="flex">
                     <input 
                         type="email" 
@@ -406,7 +456,7 @@
                         required
                         class="w-full p-2 rounded-l-lg footer-subscription-input focus:ring-2 focus:ring-yellow-400 focus:outline-none"
                     >
-                    <button type="submit" class="bg-yellow-500 text-brown-900 px-4 rounded-r-lg hover:bg-yellow-600 transition focus:ring-2 focus:ring-yellow-400 focus:outline-none">
+                    <button type="submit" class="bg-yellow-500 text-brown-900 px-3 md:px-4 rounded-r-lg hover:bg-yellow-600 transition focus:ring-2 focus:ring-yellow-400 focus:outline-none">
                         Subscribe
                     </button>
                 </form>
@@ -442,7 +492,7 @@
         </div>
 
         <!-- Copyright -->
-        <div class="mt-8 pt-4 border-t border-brown-700 text-center">
+        <div class="mt-6 md:mt-8 pt-4 border-t border-brown-700 text-center">
             <p class="text-sm">&copy; 2025 Maki City. All Rights Reserved.</p>
         </div>
     </div>
@@ -488,7 +538,7 @@
 
 <!-- Checkout Modal -->
 <div id="checkout-modal" class="modal hidden">
-    <div class="modal-content p-6">
+    <div class="modal-content p-4 md:p-6 max-w-md mx-auto">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-xl font-bold text-brown-900">Checkout</h3>
             <button id="close-checkout" class="text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-full p-1" aria-label="Close checkout">
@@ -557,7 +607,7 @@
 
 <!-- Request Call Modal -->
 <div id="request-call-modal" class="modal hidden">
-    <div class="modal-content p-6 max-w-md">
+    <div class="modal-content p-4 md:p-6 max-w-md mx-auto">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-xl font-bold text-brown-900">Request a Call</h3>
             <button id="close-request-call" class="text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded-full p-1" aria-label="Close request call form">

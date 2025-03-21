@@ -7,84 +7,23 @@
       '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
   }
 
-  // Device detection and responsive adjustments
-  function detectDeviceAndAdjustUI() {
+  // Detect device type for optimized UI
+  function detectDeviceType() {
     const width = window.innerWidth
-    let deviceType = "desktop"
-
     if (width < 768) {
-      deviceType = "mobile"
-    } else if (width >= 768 && width < 1024) {
-      deviceType = "tablet"
-    }
-
-    // Set data attribute on body for device-specific CSS
-    document.body.setAttribute("data-device", deviceType)
-
-    // Apply device-specific adjustments
-    if (deviceType === "mobile") {
-      adjustForMobile()
-    } else if (deviceType === "tablet") {
-      adjustForTablet()
+      document.body.setAttribute("data-device", "mobile")
+      return "mobile"
+    } else if (width < 1024) {
+      document.body.setAttribute("data-device", "tablet")
+      return "tablet"
     } else {
-      enhanceDesktopUI()
+      document.body.setAttribute("data-device", "desktop")
+      return "desktop"
     }
   }
 
-  // Mobile-specific adjustments
-  function adjustForMobile() {
-    // Optimize images for mobile
-    document.querySelectorAll("img").forEach((img) => {
-      if (!img.hasAttribute("loading")) {
-        img.setAttribute("loading", "lazy")
-      }
-    })
-
-    // Adjust font sizes for better readability on small screens
-    document.querySelectorAll(".hero-section h1").forEach((h1) => {
-      h1.style.fontSize = "2rem"
-      h1.style.lineHeight = "1.2"
-    })
-
-    // Improve touch targets for mobile
-    document.querySelectorAll("button, .nav-link, .cart-icon-wrapper").forEach((el) => {
-      el.classList.add("mobile-touch-target")
-    })
-
-    // Optimize menu sliders for touch
-    document.querySelectorAll(".category-slider").forEach((slider) => {
-      slider.style.scrollSnapType = "x mandatory"
-
-      // Add scroll snap to slider items
-      slider.querySelectorAll(".category-slider-item").forEach((item) => {
-        item.style.scrollSnapAlign = "start"
-      })
-    })
-  }
-
-  // Tablet-specific adjustments
-  function adjustForTablet() {
-    // Hybrid of mobile and desktop optimizations
-    document.querySelectorAll("img").forEach((img) => {
-      if (!img.hasAttribute("loading")) {
-        img.setAttribute("loading", "lazy")
-      }
-    })
-
-    // Adjust font sizes for tablets
-    document.querySelectorAll(".hero-section h1").forEach((h1) => {
-      h1.style.fontSize = "2.5rem"
-      h1.style.lineHeight = "1.3"
-    })
-
-    // Improve touch targets but less aggressively than mobile
-    document.querySelectorAll("button, .nav-link, .cart-icon-wrapper").forEach((el) => {
-      el.classList.add("tablet-touch-target")
-    })
-
-    // Add some desktop enhancements that work well on tablets
-    enhanceScrolling()
-  }
+  // Update device type on resize
+  window.addEventListener("resize", detectDeviceType)
 
   // Desktop-specific enhancements
   function enhanceDesktopUI() {
@@ -109,6 +48,22 @@
 
     // Enhance scrolling experience
     enhanceScrolling()
+  }
+
+  // Mobile-specific enhancements
+  function enhanceMobileUI() {
+    // Add touch-friendly styles
+    document.querySelectorAll("button, .nav-link, .cart-icon-wrapper").forEach((el) => {
+      el.classList.add("mobile-touch-target")
+    })
+
+    // Optimize modals for mobile
+    document.querySelectorAll(".modal-content").forEach((modal) => {
+      modal.classList.add("mobile-modal")
+    })
+
+    // Enhance scrolling experience for mobile
+    enhanceMobileScrolling()
   }
 
   // Add keyboard shortcuts for desktop
@@ -160,6 +115,12 @@
     addScrollToTopButton()
   }
 
+  // Enhance scrolling experience for mobile
+  function enhanceMobileScrolling() {
+    // Add scroll to top button
+    addScrollToTopButton()
+  }
+
   // Add scroll to top button
   function addScrollToTopButton() {
     const button = document.createElement("button")
@@ -207,143 +168,58 @@
       position: relative;
     }
     
-    .desktop-nav::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background-color: var(--color-yellow-500);
-      transition: width 0.3s ease;
-    }
-    
-    .desktop-nav:hover::after {
-      width: 100%;
-    }
-    
     .desktop-modal {
       max-width: 600px;
     }
     
-    /* Scroll to top button */
-    .scroll-to-top-btn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: var(--color-brown-800);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 90;
-      opacity: 0.8;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      border: none;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    /* Mobile optimizations */
+    .mobile-touch-target {
+      min-height: 44px;
+      min-width: 44px;
     }
     
-    .scroll-to-top-btn:hover {
-      opacity: 1;
-      transform: translateY(-3px);
+    .mobile-modal {
+      width: 95%;
+      max-width: 400px;
     }
     
-    .scroll-to-top-btn.hidden {
-      display: none;
+    /* Enhanced touch targets for mobile */
+    @media (max-width: 767px) {
+      button, 
+      .nav-link, 
+      .cart-icon-wrapper,
+      input[type="radio"] + span,
+      input[type="checkbox"] + span {
+        min-height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .category-tab {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
-    
-    /* Refresh indicator */
-    .refresh-indicator {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background-color: var(--color-brown-800);
-      color: white;
-      padding: 10px;
-      text-align: center;
-      z-index: 1000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
-
-  /* Additional device-specific enhancements */
-  [data-device="mobile"] .hero-section h1 {
-    font-size: 2.5rem;
-    line-height: 1.2;
-  }
-
-  [data-device="tablet"] .hero-section h1 {
-    font-size: 3rem;
-    line-height: 1.3;
-  }
-
-  [data-device="desktop"] .hero-section h1 {
-    font-size: 3.5rem;
-    line-height: 1.4;
-  }
-
-  /* Enhanced navigation for different devices */
-  [data-device="mobile"] .nav-link {
-    font-weight: 600;
-  }
-
-  [data-device="tablet"] .nav-link {
-    font-weight: 600;
-    letter-spacing: 0.5px;
-  }
-
-  [data-device="desktop"] .nav-link {
-    font-weight: 600;
-    letter-spacing: 1px;
-  }
-
-  /* Enhanced footer for different devices */
-  [data-device="mobile"] footer {
-    text-align: center;
-  }
-
-  [data-device="tablet"] footer .grid {
-    gap: 1.5rem;
-  }
-
-  [data-device="desktop"] footer .grid {
-    gap: 2rem;
-  }
-`
+  `
     document.head.appendChild(styleElement)
   }
 
   window.onload = () => {
-    // Remove the welcome alert to avoid disrupting user experience
-    // alert("Welcome to Maki City!");
+    // Detect device type
+    const deviceType = detectDeviceType()
+
+    // Apply device-specific enhancements
+    if (deviceType === "desktop") {
+      enhanceDesktopUI()
+    } else {
+      enhanceMobileUI()
+    }
 
     // Add enhancement styles
     addEnhancementStyles()
-
-    detectDeviceAndAdjustUI()
-  }
-
-  // Listen for resize events to adjust UI when orientation changes or window resizes
-  window.addEventListener("resize", debounce(detectDeviceAndAdjustUI, 250))
-
-  // Debounce function to prevent excessive function calls during resize
-  function debounce(func, wait) {
-    let timeout
-    return function () {
-      
-      const args = arguments
-      clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        func.apply(this, args)
-      }, wait)
-    }
   }
 
   function replaceIcons() {
@@ -364,8 +240,25 @@
 
 // Document ready event
 document.addEventListener("DOMContentLoaded", () => {
+  // Mobile menu toggle
+  const mobileMenuButton = document.getElementById("mobile-menu-button")
+  const mobileMenu = document.getElementById("mobile-menu")
+
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden")
+    })
+
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll(".mobile-nav-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.add("hidden")
+      })
+    })
+  }
+
   // Smooth scrolling for navigation links
-  document.querySelectorAll(".nav-link").forEach((anchor) => {
+  document.querySelectorAll(".nav-link, .mobile-nav-link").forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
       e.preventDefault()
       const targetId = this.getAttribute("href")
@@ -821,6 +714,16 @@ document.addEventListener("DOMContentLoaded", () => {
       this.toggleCart()
     },
 
+    saveCart() {
+      localStorage.setItem(
+        "makiCityCart",
+        JSON.stringify({
+          items: this.items,
+          total: this.total,
+        }),
+      )
+    },
+
     loadCart() {
       const savedCart = localStorage.getItem("makiCityCart")
       if (savedCart) {
@@ -1088,10 +991,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to create menu items by category
   function createMenuSection(categoryName, items) {
     const sectionContainer = document.createElement("div")
-    sectionContainer.className = "mb-16"
+    sectionContainer.className = "mb-12 md:mb-16"
 
     const sectionTitle = document.createElement("h3")
-    sectionTitle.className = "text-2xl md:text-3xl font-bold mb-8"
+    sectionTitle.className = "text-xl md:text-2xl lg:text-3xl font-bold mb-6 md:mb-8"
     sectionTitle.style.color = "#432414"
     sectionTitle.textContent = categoryName
     sectionContainer.appendChild(sectionTitle)
@@ -1127,16 +1030,16 @@ document.addEventListener("DOMContentLoaded", () => {
       cardInner.className = "bg-[#eeeeee] rounded-lg shadow-lg overflow-hidden hover-scale h-full"
       cardInner.innerHTML = `
       <div class="relative">
-        <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover" loading="lazy" onerror="this.src='placeholder.svg?height=192&width=384'">
+        <img src="${item.image}" alt="${item.name}" class="w-full h-36 md:h-48 object-cover" loading="lazy" onerror="this.src='placeholder.svg?height=192&width=384'">
         <div class="absolute top-2 right-2 bg-yellow-500 text-brown-900 px-2 py-1 rounded-full text-sm font-bold">
           ₱${item.price}
         </div>
       </div>
-      <div class="p-4">
-        <h4 class="font-bold text-lg mb-2 text-brown-900">${item.name}</h4>
-        <p class="text-brown-600 mb-4 h-16 overflow-hidden">${item.description}</p>
+      <div class="p-3 md:p-4">
+        <h4 class="font-bold text-base md:text-lg mb-1 md:mb-2 text-brown-900">${item.name}</h4>
+        <p class="text-brown-600 mb-3 md:mb-4 text-sm md:text-base h-12 md:h-16 overflow-hidden">${item.description}</p>
         <div class="flex justify-end">
-          <button class="bg-yellow-500 text-brown-900 px-4 py-2 rounded-lg hover:bg-yellow-600 transition add-to-cart-btn focus:outline-none focus:ring-2 focus:ring-yellow-400" 
+          <button class="bg-yellow-500 text-brown-900 px-3 md:px-4 py-2 rounded-lg hover:bg-yellow-600 transition add-to-cart-btn focus:outline-none focus:ring-2 focus:ring-yellow-400" 
                   data-item='${JSON.stringify(item).replace(/'/g, "&#39;")}' aria-label="Add ${item.name} to cart">
           Add to Cart
         </button>
@@ -1238,6 +1141,36 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     // Touch events for mobile swipe
+    let touchStartX = 0
+    let touchEndX = 0
+
+    slider.addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartX = e.changedTouches[0].screenX
+      },
+      { passive: true },
+    )
+
+    slider.addEventListener(
+      "touchend",
+      (e) => {
+        touchEndX = e.changedTouches[0].screenX
+        handleSwipe()
+      },
+      { passive: true },
+    )
+
+    function handleSwipe() {
+      const swipeThreshold = 50
+      if (touchEndX < touchStartX - swipeThreshold) {
+        // Swipe left - go to next
+        nextButton.click()
+      } else if (touchEndX > touchStartX + swipeThreshold) {
+        // Swipe right - go to previous
+        prevButton.click()
+      }
+    }
 
     // Initial check for indicators
     updateSliderIndicators(slider, indicators)
@@ -1401,86 +1334,88 @@ document.addEventListener("DOMContentLoaded", () => {
   filterMenu("all")
 
   // Add search functionality with fuzzy search
-  const searchInput = document.querySelector(".search-input")
-  if (searchInput) {
-    searchInput.addEventListener("input", function () {
-      const searchTerm = this.value.toLowerCase().trim()
+  const searchInputs = document.querySelectorAll(".search-input")
+  if (searchInputs.length > 0) {
+    searchInputs.forEach((searchInput) => {
+      searchInput.addEventListener("input", function () {
+        const searchTerm = this.value.toLowerCase().trim()
 
-      if (searchTerm === "") {
-        // If search is empty, revert to current category view
-        filterMenu(currentCategory)
-        return
-      }
+        if (searchTerm === "") {
+          // If search is empty, revert to current category view
+          filterMenu(currentCategory)
+          return
+        }
 
-      // Clear the menu container
-      const menuContainer = document.getElementById("menu-container")
-      if (menuContainer) {
-        menuContainer.innerHTML = `
-      <div class="loading-spinner flex justify-center py-8">
-        <div class="spinner"></div>
-      </div>
-    `
+        // Clear the menu container
+        const menuContainer = document.getElementById("menu-container")
+        if (menuContainer) {
+          menuContainer.innerHTML = `
+          <div class="loading-spinner flex justify-center py-8">
+            <div class="spinner"></div>
+          </div>
+        `
 
-        // Simulate network delay for loading effect
-        setTimeout(() => {
-          menuContainer.innerHTML = ""
+          // Simulate network delay for loading effect
+          setTimeout(() => {
+            menuContainer.innerHTML = ""
 
-          // Fuzzy search function
-          function fuzzyMatch(str, pattern) {
-            pattern = pattern.toLowerCase()
-            str = str.toLowerCase()
+            // Fuzzy search function
+            function fuzzyMatch(str, pattern) {
+              pattern = pattern.toLowerCase()
+              str = str.toLowerCase()
 
-            let patternIdx = 0
-            let strIdx = 0
-            const match = false
+              let patternIdx = 0
+              let strIdx = 0
+              const match = false
 
-            while (patternIdx < pattern.length && strIdx < str.length) {
-              if (pattern[patternIdx] === str[strIdx]) {
-                patternIdx++
+              while (patternIdx < pattern.length && strIdx < str.length) {
+                if (pattern[patternIdx] === str[strIdx]) {
+                  patternIdx++
+                }
+                strIdx++
               }
-              strIdx++
+
+              return patternIdx === pattern.length
             }
 
-            return patternIdx === pattern.length
-          }
+            // Filter all menu items based on fuzzy search
+            const filteredItems = allMenuItems.filter(
+              (item) =>
+                fuzzyMatch(item.name, searchTerm) ||
+                fuzzyMatch(item.description, searchTerm) ||
+                item.name.toLowerCase().includes(searchTerm) ||
+                item.description.toLowerCase().includes(searchTerm),
+            )
 
-          // Filter all menu items based on fuzzy search
-          const filteredItems = allMenuItems.filter(
-            (item) =>
-              fuzzyMatch(item.name, searchTerm) ||
-              fuzzyMatch(item.description, searchTerm) ||
-              item.name.toLowerCase().includes(searchTerm) ||
-              item.description.toLowerCase().includes(searchTerm),
-          )
+            if (filteredItems.length > 0) {
+              const section = createMenuSection("SEARCH RESULTS", filteredItems)
+              menuContainer.appendChild(section)
 
-          if (filteredItems.length > 0) {
-            const section = createMenuSection("SEARCH RESULTS", filteredItems)
-            menuContainer.appendChild(section)
-
-            // Add event listeners to Add to Cart buttons
-            document.querySelectorAll(".add-to-cart-btn").forEach((button) => {
-              button.addEventListener("click", function () {
-                try {
-                  const itemData = JSON.parse(this.getAttribute("data-item"))
-                  cart.addToCart(itemData)
-                } catch (error) {
-                  console.error("Error parsing item data:", error)
-                  cart.showToast("Error adding item to cart", "error")
-                }
+              // Add event listeners to Add to Cart buttons
+              document.querySelectorAll(".add-to-cart-btn").forEach((button) => {
+                button.addEventListener("click", function () {
+                  try {
+                    const itemData = JSON.parse(this.getAttribute("data-item"))
+                    cart.addToCart(itemData)
+                  } catch (error) {
+                    console.error("Error parsing item data:", error)
+                    cart.showToast("Error adding item to cart", "error")
+                  }
+                })
               })
-            })
-          } else {
-            // Display "No results found" message
-            const noResults = document.createElement("div")
-            noResults.className = "text-center py-8"
-            noResults.innerHTML = `
-          <p class="text-xl text-brown-900">No results found for "${searchTerm}"</p>
-          <p class="mt-2">Try a different search term or browse our categories.</p>
-        `
-            menuContainer.appendChild(noResults)
-          }
-        }, 300)
-      }
+            } else {
+              // Display "No results found" message
+              const noResults = document.createElement("div")
+              noResults.className = "text-center py-8"
+              noResults.innerHTML = `
+              <p class="text-xl text-brown-900">No results found for "${searchTerm}"</p>
+              <p class="mt-2">Try a different search term or browse our categories.</p>
+            `
+              menuContainer.appendChild(noResults)
+            }
+          }, 300)
+        }
+      })
     })
   }
 
@@ -1695,7 +1630,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Add active class to navigation links based on scroll position
   function setActiveNavLink() {
     const sections = document.querySelectorAll("section[id]")
-    const navLinks = document.querySelectorAll(".nav-link")
+    const navLinks = document.querySelectorAll(".nav-link, .mobile-nav-link")
 
     let currentSection = ""
 
@@ -1746,8 +1681,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 3000)
     }
   }
-
-  // Add this to the end of your DOMContentLoaded event listener
 
   // Testimonial slider functionality
   const testimonialDots = document.querySelectorAll("#testimonials .flex.justify-center button")
